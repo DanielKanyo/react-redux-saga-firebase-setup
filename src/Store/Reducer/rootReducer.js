@@ -1,4 +1,4 @@
-import { ADD_ITEM, RENDER_LIST } from '../Actions/actions';
+import * as TYPES from '../Actions/actionTypes';
 
 const initialState = {
   list: []
@@ -15,7 +15,7 @@ const addItem = (state, action) => {
   let newList = [
     ...state.list,
     {
-      ...action.list
+      ...action.payload
     }
   ];
 
@@ -27,11 +27,14 @@ const addItem = (state, action) => {
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case RENDER_LIST:
+    case TYPES.RENDER_LIST:
       return renderList(state, action)
 
-    case ADD_ITEM:
+    case TYPES.ADD_ITEM_SUCCESS:
       return addItem(state, action)
+    case TYPES.ADD_ITEM_FAILED:
+      console.log(action.error);
+      return state;
 
     default:
       return state;

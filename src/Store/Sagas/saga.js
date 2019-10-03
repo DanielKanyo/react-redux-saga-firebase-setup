@@ -1,5 +1,5 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { LOAD_LIST, RENDER_LIST } from '../Actions/actions';
+import * as TYPES from '../Actions/actionTypes';
 
 import { getFirestore } from 'redux-firestore';
 
@@ -7,22 +7,51 @@ export function* fetchList() {
   const firestore = getFirestore();
   const payload = [];
 
-  const snapshot = yield call(firestore.get, 'items');
-  
-  snapshot.forEach(item => {
-    payload.push(item.data());
-  });
+  try {
+    const snapshot = yield call(firestore.get, 'items');
 
-  yield put({
-    type: RENDER_LIST,
-    payload
-  });
+    snapshot.forEach(item => {
+      payload.push(item.data());
+    });
+
+    yield put({
+      type: TYPES.RENDER_LIST,
+      payload
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export function* loadList() {
-  yield takeEvery(LOAD_LIST, fetchList);
+export function* addItem({ payload }) {
+  const firestore = getFirestore();
+  
+  try {
+    yield call(firestore.add, 'items', { ...payload });
+
+    yield put({
+      type: TYPES.ADD_ITEM_SUCCESS,
+      payload
+    });
+  } catch (error) {
+    yield put({
+      type: TYPES.ADD_ITEM_FAILED,
+      error
+    });
+  }
+}
+
+export function* watchLoadList() {
+  yield takeEvery(TYPES.LOAD_LIST, fetchList);
+}
+
+export function* watchAddItem() {
+  yield takeEvery(TYPES.ADD_ITEM, addItem);
 }
 
 export default function* rootSaga() {
-  yield all([loadList()]);
+  yield all([
+    watchLoadList(),
+    watchAddItem()
+  ]);
 }

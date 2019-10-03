@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import AddItem from './Components/AddToDo';
+import AddItem from './Components/AddItem';
 import ListContainer from './Components/ListContainer';
 import Navigation from './Components/Navigation';
 

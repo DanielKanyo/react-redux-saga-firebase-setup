@@ -29,7 +29,7 @@ let AddItem = ({ dispatch }) => {
             }}
           />
           <InputGroup.Append>
-            <Button type="submit">Add To-Do</Button>
+            <Button type="submit">Add Item</Button>
           </InputGroup.Append>
         </InputGroup>
       </Form.Group>
@@ -37,6 +37,6 @@ let AddItem = ({ dispatch }) => {
   );
 };
 
-AddItem = connect()(addItem);
+AddItem = connect()(AddItem);
 
 export default AddItem;
