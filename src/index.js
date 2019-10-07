@@ -18,10 +18,8 @@ import { reactReduxFirebase } from 'react-redux-firebase';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { reduxFirestore } from 'redux-firestore';
+import { firebaseConfig } from './Constants/firebaseConfig';
 
-const firebaseConfig = {
-  // add your config here
-}
 const reduxFirebase = {
   userProfile: 'users',
   enableLogging: 'false'
